@@ -1,10 +1,14 @@
+// dependencies
 var express = require("express");
 var bodyParser = require("body-parser");
+
+// heroku compatible port setup
 var PORT = process.env.PORT || 8080;
 var app = express();
 
 app.use(bodyParser.urlencoded({extended : false}));
 
+// handlebars connection
 var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({defaultLayout:"main"}));
 app.set("view engine", "handlebars");
