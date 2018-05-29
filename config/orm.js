@@ -32,7 +32,9 @@ var orm = {
     connection.query(query, [burgerID], function (err, res) {
       if(err) throw err;
       cb(res);
-  });
-
+  }
+  );
+}
+};
   // export orm object
   module.exports = orm;
