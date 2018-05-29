@@ -1,37 +1,38 @@
 // import connection.js into orm.js
 var connection = require("./connection.js");
 
-// boiler plate methods. will need selectAll() insertOne() updateOne()
 var orm = {
-    selectWhere: function(tableInput, colToSearch, valOfCol) {
-      var queryString = "SELECT * FROM ?? WHERE ?? = ?";
-      connection.query(queryString, [tableInput, colToSearch, valOfCol], function(err, result) {
-        if (err) throw err;
-        console.log(result);
-      });
-    },
-    selectAndOrder: function(whatToSelect, table, orderCol) {
-      var queryString = "SELECT ?? FROM ?? ORDER BY ?? DESC";
-      console.log(queryString);
-      connection.query(queryString, [whatToSelect, table, orderCol], function(err, result) {
-        if (err) throw err;
-        console.log(result);
-      });
-    },
-    findWhoHasMost: function(tableOneCol, tableTwoForeignKey, tableOne, tableTwo) {
-      var queryString =
-        "SELECT ??, COUNT(??) AS count FROM ?? LEFT JOIN ?? ON ??.??= ??.id GROUP BY ?? ORDER BY count DESC LIMIT 1";
-  
-      connection.query(
-        queryString,
-        [tableOneCol, tableOneCol, tableOne, tableTwo, tableTwo, tableTwoForeignKey, tableOne, tableOneCol],
-        function(err, result) {
-          if (err) throw err;
-          console.log(result);
-        }
-      );
-    }
-  };
-  
+  //display burger table
+  selectAll: function(cb) {
+    var query = "SELECT * FROM burgers";
+    connection.query(query, function(err, res) {
+      if(err) throw err;
+      cb(res);
+  });
+}, 
+  //adds user input burger
+  insertOne: function(burger_name, cb) {
+    var query = "INSERT INTO burgers (burger_name, devoured) VALUES (?, false)";
+    connection.query(query, [name], function(err, res) {
+      if(err) throw err;
+      cb(res);
+  });
+},
+  // devoured?
+  updateOne: function(burgerID, cb) {
+    var query = "UPDATE burgers SET devoured= ' ' + true + ' ' WHERE id=?";
+    connection.query(query, [burgerID], function(err, res) {
+      if (err) throw  err;
+      cb(res);
+  });
+},
+  //deletes one burger
+  deleteOne: function(burgerID, cb) {
+    var query = "DELETE FROM burgers WHERE ID = ? ";
+    connection.query(query, [burgerID], function (err, res) {
+      if(err) throw err;
+      cb(res);
+  });
+
   // export orm object
   module.exports = orm;
